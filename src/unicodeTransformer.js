@@ -1,5 +1,6 @@
 // code borrowed from https://github.com/lovasoa/html2unicode/blob/master/src/index.js
 // because we don't need Saxophone and don't want to be async
+// and importing functions directly did'nt work
 
 /**
  * Transforms a text according to the given options

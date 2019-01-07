@@ -2,9 +2,9 @@ import remark from "remark";
 import visit from "unist-util-visit";
 import strip from "strip-markdown";
 import squeezeParagraphs from "remark-squeeze-paragraphs";
-// import { italicize } from "html2unicode/src";
+// import { italicize } from "html2unicode";
 
-import { italicize } from "./unicodeTransformer";
+import { italicize, bolden } from "./unicodeTransformer";
 
 // This is a remark plugin
 function utf8(options = {}) {
@@ -12,10 +12,17 @@ function utf8(options = {}) {
 
     function transformer(tree, file) {
         visit(tree, "emphasis", italic);
+        visit(tree, "strong", bold);
 
         function italic(node) {
             node.children.forEach(function(child, index) {
                 child.value = italicize(child.value);
+            });
+        }
+
+        function bold(node) {
+            node.children.forEach(function(child, index) {
+                child.value = bolden(child.value);
             });
         }
     }
