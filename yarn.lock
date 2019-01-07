@@ -4300,6 +4300,13 @@ html-webpack-plugin@2.30.1:
     pretty-error "^2.0.2"
     toposort "^1.0.0"
 
+html2unicode@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/html2unicode/-/html2unicode-1.1.0.tgz#f393d36fd9febd635eef756fd0e5cd138140b6a5"
+  integrity sha512-L0goPs65oBApIZ5wSb19BGK/6dIqpH/Mmc9ruvgiMVDLHGywAnkPa5lwQDfPyuSvKbNN6ShFNFPsdnlLZDN37g==
+  dependencies:
+    saxophone "^0.4.0"
+
 htmlescape@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/htmlescape/-/htmlescape-1.1.1.tgz#3a03edc2214bca3b66424a3e7959349509cb0351"
@@ -7549,6 +7556,15 @@ readable-stream@1.1.x, "readable-stream@1.x >=1.1.9":
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
+readable-stream@^3.0.3:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.1.1.tgz#ed6bbc6c5ba58b090039ff18ce670515795aeb06"
+  integrity sha512-DkN66hPyqDhnIQ6Jcsvx9bFjhw214O4poMBcIMgPVpQvNy9a0e0Uhg5SqySyDKAmUlwt8LonTBz1ezOnM8pUdA==
+  dependencies:
+    inherits "^2.0.3"
+    string_decoder "^1.1.1"
+    util-deprecate "^1.0.1"
+
 readable-stream@~2.0.0, readable-stream@~2.0.5:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.0.6.tgz#8f90341e68a53ccc928788dacfcd11b36eb9b78e"
@@ -8022,6 +8038,14 @@ sax@^1.2.4, sax@~1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
+
+saxophone@^0.4.0:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/saxophone/-/saxophone-0.4.3.tgz#e188f35989276db87885ad3aa773e7b593e9926e"
+  integrity sha512-lvKcSfrat1Cg30R3Wn7WI1Bm6/3I+jW7BR/cGweEY+tvvjKvtwXG9ynjzNjvsncbNRt5S/9ZjaFGTIzIF0xxGg==
+  dependencies:
+    readable-stream "^3.0.3"
+    string_decoder "^1.1.1"
 
 schema-utils@^0.3.0:
   version "0.3.0"
@@ -8610,7 +8634,7 @@ string-width@^1.0.1, string-width@^1.0.2:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^4.0.0"
 
-string_decoder@^1.0.0:
+string_decoder@^1.0.0, string_decoder@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.2.0.tgz#fe86e738b19544afe70469243b2a1ee9240eae8d"
   integrity sha512-6YqyX6ZWEYguAxgZzHGL7SsCeGx3V2TtOTqZz1xSTSWnqsbWwbptafNyvf/ACquZUXV3DANr5BDIwNYe1mN42w==
@@ -9275,7 +9299,7 @@ useragent@^2.1.12:
     lru-cache "4.1.x"
     tmp "0.0.x"
 
-util-deprecate@~1.0.1:
+util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=

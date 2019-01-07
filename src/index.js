@@ -2,6 +2,9 @@ import remark from "remark";
 import visit from "unist-util-visit";
 import strip from "strip-markdown";
 import squeezeParagraphs from "remark-squeeze-paragraphs";
+// import { italicize } from "html2unicode/src";
+
+import { italicize } from "./unicodeTransformer";
 
 // This is a remark plugin
 function utf8(options = {}) {
@@ -12,7 +15,7 @@ function utf8(options = {}) {
 
         function italic(node) {
             node.children.forEach(function(child, index) {
-                child.value = "hello world";
+                child.value = italicize(child.value);
             });
         }
     }
@@ -27,7 +30,10 @@ function converter(string) {
             .process(string, function(err, output) {
                 if (err) return reject(err);
 
-                resolve(output.contents);
+                let result = output.contents;
+                result = result.replace(/\n$/, "");
+
+                resolve(result);
             });
     });
 }
