@@ -1,28 +1,35 @@
 {
-  "name": "markdown-to-tweet",
-  "version": "1.0.0",
-  "description": "Describe markdown-to-tweet here",
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "files": [
-    "es",
-    "lib",
-    "umd"
-  ],
-  "scripts": {
-    "build": "nwb build-web-module",
-    "clean": "nwb clean-module",
-    "test": "nwb test",
-    "test:coverage": "nwb test --coverage",
-    "test:watch": "nwb test --server"
-  },
-  "dependencies": {
-  },
-  "devDependencies": {
-    "nwb": "0.21.x"
-  },
-  "author": "",
-  "homepage": "",
-  "license": "MIT",
-  "repository": ""
+    "name": "markdown-to-tweet",
+    "version": "1.0.0",
+    "description": "Describe markdown-to-tweet here",
+    "main": "lib/index.js",
+    "module": "es/index.js",
+    "files": [
+        "es",
+        "lib",
+        "umd"
+    ],
+    "scripts": {
+        "build": "nwb build-web-module",
+        "clean": "nwb clean-module",
+        "test": "nwb test",
+        "test:coverage": "nwb test --coverage",
+        "test:watch": "nwb test --server"
+    },
+    "dependencies": {
+        "hast-util-sanitize": "^1.2.1",
+        "mdast-util-to-hast": "^4.0.0",
+        "remark": "^10.0.1",
+        "remark-html": "^9.0.0",
+        "remark-squeeze-paragraphs": "^3.0.3",
+        "strip-markdown": "^3.0.3",
+        "unist-util-visit": "^1.4.0"
+    },
+    "devDependencies": {
+        "nwb": "0.21.x"
+    },
+    "author": "",
+    "homepage": "",
+    "license": "MIT",
+    "repository": ""
 }
