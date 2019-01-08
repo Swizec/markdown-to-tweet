@@ -20,6 +20,15 @@ describe("bold", () => {
     });
 });
 
+describe("code", () => {
+    it("converts `code` into monospace font", done => {
+        lib("`code`").then(result => {
+            expect(result).toEqual("𝚌𝚘𝚍𝚎");
+            done();
+        });
+    });
+});
+
 // describe('italic', () => {
 //     it('converts _italic_ into utf8 italics', () => {
 //         expect(lib('_italic_')).toEqual('');

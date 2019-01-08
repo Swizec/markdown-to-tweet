@@ -4,7 +4,7 @@ import strip from "strip-markdown";
 import squeezeParagraphs from "remark-squeeze-paragraphs";
 // import { italicize } from "html2unicode";
 
-import { italicize, bolden } from "./unicodeTransformer";
+import { italicize, bolden, monospace } from "./unicodeTransformer";
 
 // This is a remark plugin
 function utf8(options = {}) {
@@ -13,6 +13,7 @@ function utf8(options = {}) {
     function transformer(tree, file) {
         visit(tree, "emphasis", italic);
         visit(tree, "strong", bold);
+        visit(tree, "inlineCode", code);
 
         function italic(node) {
             node.children.forEach(function(child, index) {
@@ -24,6 +25,10 @@ function utf8(options = {}) {
             node.children.forEach(function(child, index) {
                 child.value = bolden(child.value);
             });
+        }
+
+        function code(node) {
+            node.value = monospace(node.value);
         }
     }
 }
