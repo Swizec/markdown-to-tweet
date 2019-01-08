@@ -2,34 +2,68 @@ import remark from "remark";
 import visit from "unist-util-visit";
 import strip from "strip-markdown";
 import squeezeParagraphs from "remark-squeeze-paragraphs";
-// import { italicize } from "html2unicode";
+
+import "isomorphic-fetch";
 
 import { italicize, bolden, monospace } from "./unicodeTransformer";
+
+if (global) {
+    global.btoa = function(str) {
+        return new Buffer(str).toString("base64");
+    };
+}
 
 // This is a remark plugin
 function utf8(options = {}) {
     return transformer;
 
     function transformer(tree, file) {
-        visit(tree, "emphasis", italic);
-        visit(tree, "strong", bold);
-        visit(tree, "inlineCode", code);
+        return new Promise(async (resolve, reject) => {
+            visit(tree, "emphasis", italic);
+            visit(tree, "strong", bold);
+            visit(tree, "inlineCode", inlineCode);
 
-        function italic(node) {
-            node.children.forEach(function(child, index) {
-                child.value = italicize(child.value);
+            const codeNodesToChange = [];
+            visit(tree, "code", node => {
+                codeNodesToChange.push({ node });
             });
-        }
 
-        function bold(node) {
-            node.children.forEach(function(child, index) {
-                child.value = bolden(child.value);
-            });
-        }
+            function italic(node) {
+                node.children.forEach(function(child, index) {
+                    child.value = italicize(child.value);
+                });
+            }
 
-        function code(node) {
-            node.value = monospace(node.value);
-        }
+            function bold(node) {
+                node.children.forEach(function(child, index) {
+                    child.value = bolden(child.value);
+                });
+            }
+
+            function inlineCode(node) {
+                node.value = monospace(node.value);
+            }
+
+            for (const obj of codeNodesToChange) {
+                const src = btoa(obj.node.value),
+                    codeType = "javascript";
+
+                try {
+                    const res = await fetch(
+                            `https://84wz7ux5rc.execute-api.us-east-1.amazonaws.com/default/screenshot-as-a-service-dev-screenshot-function?type=code&code=${src}&codeType=${codeType}`
+                        ),
+                        url = await res.text();
+
+                    console.log(url);
+                    obj.node.value = url;
+                    console.log(obj.node);
+                } catch (e) {
+                    console.log("ERROR", e);
+                }
+            }
+
+            resolve();
+        });
     }
 }
 

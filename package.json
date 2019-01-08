@@ -19,6 +19,7 @@
     "dependencies": {
         "hast-util-sanitize": "^1.2.1",
         "html2unicode": "^1.1.0",
+        "isomorphic-fetch": "^2.2.1",
         "mdast-util-to-hast": "^4.0.0",
         "remark": "^10.0.1",
         "remark-html": "^9.0.0",

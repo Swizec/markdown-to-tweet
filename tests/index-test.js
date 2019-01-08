@@ -27,6 +27,13 @@ describe("code", () => {
             done();
         });
     });
+
+    it("converts code blocks into carbon.now.sh screenshots", async done => {
+        const result = await lib('```\nconst bla = "hello world";\n```');
+
+        console.log(result);
+        done();
+    });
 });
 
 // describe('italic', () => {
