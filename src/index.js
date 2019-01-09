@@ -3,76 +3,78 @@ import visit from "unist-util-visit";
 import strip from "strip-markdown";
 import squeezeParagraphs from "remark-squeeze-paragraphs";
 
-import "isomorphic-fetch";
-
 import { italicize, bolden, monospace } from "./unicodeTransformer";
 
-if (global) {
-    global.btoa = function(str) {
-        return new Buffer(str).toString("base64");
-    };
-}
+// if (global) {
+//     global.btoa = function(str) {
+//         return new Buffer(str).toString("base64");
+//     };
+// }
 
 // This is a remark plugin
 function utf8(options = {}) {
-    return transformer;
+    return function transformer(tree, file) {
+        visit(tree, "emphasis", italic);
+        visit(tree, "strong", bold);
+        visit(tree, "inlineCode", inlineCode);
 
-    function transformer(tree, file) {
-        return new Promise(async (resolve, reject) => {
-            visit(tree, "emphasis", italic);
-            visit(tree, "strong", bold);
-            visit(tree, "inlineCode", inlineCode);
+        function italic(node) {
+            node.type = "text";
+            node.value = node.children
+                .map(child => italicize(child.value))
+                .join(" ");
+        }
 
-            const codeNodesToChange = [];
+        function bold(node) {
+            node.type = "text";
+            node.value = node.children
+                .map(child => bolden(child.value))
+                .join(" ");
+        }
+
+        function inlineCode(node) {
+            node.type = "text";
+            node.value = monospace(node.value);
+        }
+    };
+}
+
+async function getCodeScreenshot(src) {
+    const codeType = "javascript",
+        srcArg = btoa(src);
+
+    const res = await fetch(
+        `https://84wz7ux5rc.execute-api.us-east-1.amazonaws.com/default/screenshot-as-a-service-dev-screenshot-function?type=code&code=${srcArg}&codeType=${codeType}`
+    );
+
+    return res.text();
+}
+function codeScreenshot() {
+    return tree =>
+        new Promise(async (resolve, reject) => {
+            const nodesToChange = [];
             visit(tree, "code", node => {
-                codeNodesToChange.push({ node });
+                nodesToChange.push({ node });
             });
-
-            function italic(node) {
-                node.children.forEach(function(child, index) {
-                    child.value = italicize(child.value);
-                });
-            }
-
-            function bold(node) {
-                node.children.forEach(function(child, index) {
-                    child.value = bolden(child.value);
-                });
-            }
-
-            function inlineCode(node) {
-                node.value = monospace(node.value);
-            }
-
-            for (const obj of codeNodesToChange) {
-                const src = btoa(obj.node.value),
-                    codeType = "javascript";
-
+            for (const { node } of nodesToChange) {
                 try {
-                    const res = await fetch(
-                            `https://84wz7ux5rc.execute-api.us-east-1.amazonaws.com/default/screenshot-as-a-service-dev-screenshot-function?type=code&code=${src}&codeType=${codeType}`
-                        ),
-                        url = await res.text();
-
-                    console.log(url);
-                    obj.node.value = url;
-                    console.log(obj.node);
+                    const url = await getCodeScreenshot(node.value);
+                    node.value = url;
                 } catch (e) {
                     console.log("ERROR", e);
+                    return reject(e);
                 }
             }
 
             resolve();
         });
-    }
 }
 
 function converter(string) {
     return new Promise(function(resolve, reject) {
         remark()
             .use(utf8)
-            .use(squeezeParagraphs)
-            .use(strip)
+            .use(codeScreenshot)
             .process(string, function(err, output) {
                 if (err) return reject(err);
 
