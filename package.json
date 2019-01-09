@@ -24,7 +24,6 @@
         "remark": "^10.0.1",
         "remark-html": "^9.0.0",
         "remark-squeeze-paragraphs": "^3.0.3",
-        "strip-markdown": "^3.0.3",
         "unist-util-visit": "^1.4.0"
     },
     "devDependencies": {
